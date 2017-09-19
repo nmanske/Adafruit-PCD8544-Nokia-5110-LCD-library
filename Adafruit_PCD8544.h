@@ -15,6 +15,7 @@ Written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above, and the splash screen must be included in any redistribution
 *********************************************************************/
+
 #ifndef _ADAFRUIT_PCD8544_H
 #define _ADAFRUIT_PCD8544_H
 
@@ -27,14 +28,19 @@ All text above, and the splash screen must be included in any redistribution
 
 #include <SPI.h>
 
-#if  defined(__SAM3X8E__) || defined(ARDUINO_ARCH_SAMD)
-  typedef volatile RwReg PortReg;
+#ifdef ESP8266
+  typedef volatile uint32_t PortReg;
   typedef uint32_t PortMask;
+#elif defined __SAM3X8E__
+    typedef volatile RwReg PortReg;
+    typedef uint32_t PortMask;
+#elif defined __NATHAN__
+    typedef volatile uint32_t PortReg;
+    typedef uint32_t PortMask;
 #else
-  typedef volatile uint8_t PortReg;
-  typedef uint8_t PortMask;
+    typedef volatile uint8_t PortReg;
+    typedef uint8_t PortMask;
 #endif
-
 
 #define BLACK 1
 #define WHITE 0
